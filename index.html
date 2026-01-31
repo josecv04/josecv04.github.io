@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jose Castillo | Cross-Disciplined Engineer</title>
+  <meta name="description" content="Jose Castillo — Bioengineering & Electrical Engineering. Circuits, PCB design, embedded Linux, ROS2, biomedical signal processing, and robotics." />
+  <meta name="theme-color" content="#0b0f19" />
+
+  <meta property="og:title" content="Jose Castillo | Cross-Disciplined Engineer" />
+  <meta property="og:description" content="Circuits • PCB Design • Embedded Linux • ROS2 • Biomedical Signal Processing • Robotics" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!--
+    INTERNAL NOTES (hidden):
+    - Keep the site recruiter-skim friendly (headline → signals → projects).
+    - Prioritize hardware ownership and cross-layer debugging.
+    - Replace placeholders with technical visuals (PCB layout, plots, ROS graphs).
+  -->
+
+  <style>
+    /* Lightbox (click-to-expand images) */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 9999;
+    }
+    .lightbox.is-open {
+      display: block;
+    }
+    .lightbox__backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+    }
+    .lightbox__panel {
+      position: relative;
+      max-width: min(1100px, calc(100vw - 32px));
+      max-height: calc(100vh - 32px);
+      margin: 16px auto;
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+    }
+    .lightbox__img {
+      width: 100%;
+      height: auto;
+      max-height: calc(100vh - 120px);
+      object-fit: contain;
+      background: #f3f4f6;
+      display: block;
+    }
+    .lightbox__cap {
+      padding: 10px 14px 14px 14px;
+    }
+    .lightbox__close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 0;
+      background: rgba(255, 255, 255, 0.9);
+      cursor: pointer;
+      font-size: 24px;
+      line-height: 1;
+    }
+    .lightbox__close:hover {
+      background: rgba(255, 255, 255, 1);
+    }
+  </style>
+
+</head>
+
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+
+  <header class="header">
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="Home">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Jose Castillo</span>
+      </a>
+
+      <nav aria-label="Primary">
+        <ul class="navlinks">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="navcta">
+        <a class="btn btn-solid" href="resume.pdf" target="_blank" rel="noreferrer">Resume</a>
+        <button id="themeBtn" class="btn btn-ghost" type="button" aria-label="Toggle theme">
+          <span class="btn-icon" aria-hidden="true">☾</span>
+          <span class="btn-text">Theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="content">
+    <!-- HERO -->
+    <section id="top" class="section hero">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Bioengineering • Electrical Engineering • Robotics</p>
+          <h1>
+            Cross-disciplined engineer building and debugging
+            <span class="grad">biomedical & embedded systems</span>
+          </h1>
+          <p class="lead">
+            I design circuits and PCBs, bring up embedded Linux systems, and build robust signal-processing
+            and robotics pipelines using C++, Python, MATLAB, and ROS2. My strength is debugging across
+            hardware, firmware, and software to make real systems work.
+          </p>
+
+          <div class="cta-row">
+            <a class="btn btn-solid" href="#projects">View Projects</a>
+            <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noreferrer">Download Resume</a>
+            <a class="btn btn-ghost" href="#contact">Contact</a>
+          </div>
+
+          <ul class="meta">
+            <li><span class="k">Location</span><span class="v">San Diego, CA</span></li>
+            <li><span class="k">Core</span><span class="v">Circuits • PCB Design • Embedded Linux • ROS2 • DSP</span></li>
+            <li><span class="k">Focus</span><span class="v">Bioinstrumentation, biosensing, robotics systems</span></li>
+          </ul>
+        </div>
+
+        <aside class="card hero-card" aria-label="Highlights">
+          <h2 class="h2">Highlights</h2>
+          <ul class="bullets">
+            <li><strong>EEG hardware:</strong> schematic → Altium PCB → validation vs existing EEG boards.</li>
+            <li><strong>Biosensors:</strong> microfabrication + sputtering + DSP pipelines for clean signals.</li>
+            <li><strong>Robotics:</strong> embedded Linux + ROS2 bring-up and full-stack debugging; now a TA.</li>
+          </ul>
+
+          <div class="chips" aria-label="Quick links">
+            <a class="chip" href="#projects">Projects</a>
+            <a class="chip" href="#experience">Experience</a>
+            <a class="chip" href="#skills">Skills</a>
+          </div>
+
+          <!-- Hidden note (do not display publicly):
+               Happy to share schematics, plots, and build documentation on request. -->
+        </aside>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2">About</h2>
+          <!-- (hidden) keep concise and technical -->
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="h3">What I build</h3>
+            <p>
+              I build biomedical and embedded systems where hardware and computation meet: analog front-ends,
+              sensor integration, and signal pipelines that extract meaningful information from noisy real-world data.
+              I enjoy taking projects from schematic → PCB → bring-up → validation.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3 class="h3">How I work</h3>
+            <p>
+              I’m strongest when the problem spans multiple layers. I routinely debug across circuits, microcontrollers,
+              embedded Linux, ROS2 nodes, and Python/MATLAB analysis. I care about building systems that are measurable,
+              repeatable, and easy to improve.
+            </p>
+          </div>
+        </div>
+
+        <!-- CORE ENGINEERING SIGNALS (moved up) -->
+        <div class="signals-wrap">
+          <div class="card signals signal-box">
+            <h3 class="h3">Core Engineering Signals</h3>
+            <ul class="bullets">
+              <li><strong>End-to-end build depth:</strong> schematic → PCB → bring-up → experimental validation</li>
+              <li><strong>Cross-layer debugging:</strong> C++, Python, MATLAB, ROS2, embedded Linux</li>
+              <li><strong>Signal rigor:</strong> biomedical DSP applied to real experimental data</li>
+            </ul>
+          </div>
+
+          <div class="card lab signal-box">
+            <h3 class="h3">Lab Proficiencies</h3>
+            <ul class="bullets small">
+              <li>Oscilloscopes, signal generators, logic analyzers</li>
+              <li>SMD & through-hole soldering, rework</li>
+              <li>Sputter coaters, mask aligners</li>
+              <li>Electrochemical measurement setups</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2">Experience</h2>
+          <!-- (hidden) dates are correct as of 2026 -->
+        </div>
+
+        <div class="stack">
+          <article class="card xp">
+            <header class="xp-head">
+              <div>
+                <h3 class="h3">Research Assistant — NanoBioElectronic Lab (NBE), UC San Diego</h3>
+                <p class="muted">May 2025 – Present</p>
+              </div>
+              <p class="tag">Bioelectronics</p>
+            </header>
+            <ul class="bullets">
+              <li>Microfabricated and iteratively refined microneedle arrays for continuous biomarker monitoring (e.g., glucose, lactate, cortisol).</li>
+              <li>Integrated electrochemical sensors with biocompatible substrates, focusing on reliable skin interfaces and low-noise acquisition.</li>
+              <li>Built analysis workflows for cleaning and interpreting signals (Butterworth filtering, baseline correction, Savitzky–Golay smoothing).</li>
+            </ul>
+          </article>
+
+          <article class="card xp">
+            <header class="xp-head">
+              <div>
+                <h3 class="h3">Teaching Assistant — Intro to Autonomous Vehicles (ECE/MAE148), UC San Diego</h3>
+                <p class="muted">Jul 2025 – Present</p>
+              </div>
+              <p class="tag">Robotics</p>
+            </header>
+            <ul class="bullets">
+              <li>Debugged student systems across embedded Linux, ROS2, C++, and Python for 50+ students.</li>
+              <li>Supported NVIDIA Jetson Nano / Raspberry Pi–based hardware bring-up, including device configuration/permissions and sensor integration.</li>
+              <li>Created repeatable troubleshooting workflows and documentation to improve project success and technical confidence.</li>
+            </ul>
+          </article>
+
+          <article class="card xp">
+            <header class="xp-head">
+              <div>
+                <h3 class="h3">Publication (co-author) — ACS Sensors (manuscript under review)</h3>
+                <p class="muted">2025</p>
+              </div>
+              <p class="tag">Research</p>
+            </header>
+            <ul class="bullets">
+              <li>Co-author: “Clinical Evaluation of Microneedle Biosensors for Continuous Lactate Monitoring in Critically Ill Patients.”</li>
+              <li>Contributed device preparation and documented fabrication workflow (supplementary media).</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2">Featured Projects</h2>
+          <!-- (hidden) replace placeholders with technical visuals -->
+        </div>
+
+        <div class="cards-3">
+          <!-- LegoEEG -->
+          <article class="card project project-feature">
+            <div class="project-top">
+              <h3 class="h3">“LegoEEG” Modular EEG Headset</h3>
+              <p class="tag">Circuits • PCB • Validation</p>
+            </div>
+
+            <figure class="thumb">
+              <div class="thumbbox" style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#f3f4f6;">
+                <img
+                  src="assets/legoeeg.png"
+                  alt="LegoEEG active electrode PCB layout showing analog front-end routing and grounding"
+                  class="thumb-img"
+                  loading="lazy"
+                  decoding="async"
+                  style="width:100%; height:100%; display:block; object-fit:contain; object-position:center;"
+                >
+              </div>
+              <figcaption class="muted small">PCB layout showing analog front-end routing and grounding.</figcaption>
+            </figure>
+
+            <p>
+              Modular EEG headset with interchangeable hydrogel electrodes and custom low-noise amplifier + control PCBs,
+              designed for fast iteration and realistic electrode–skin conditions.
+            </p>
+
+            <ul class="bullets small">
+              <li><strong>Schematic → PCB:</strong> designed the front-end schematic and implemented the layout in Altium with noise-aware routing/grounding.</li>
+              <li><strong>Validation:</strong> benchmarked against existing EEG boards; compared signal quality and stability using analysis scripts.</li>
+              <li><strong>Hydrogel interface:</strong> fabricated conductive hydrogels and iterated based on electrode–skin impedance and signal quality.</li>
+              <li><strong>Engineering Decision:</strong> prioritized 60 Hz interference rejection via layout constraints, grounding strategy, and routing discipline in the analog front-end.</li>
+            </ul>
+          </article>
+
+          <!-- NBE microneedles -->
+          <article class="card project">
+            <div class="project-top">
+              <h3 class="h3">Microneedle Biosensor Systems (NBE Lab)</h3>
+              <p class="tag">Microfab • Sputtering • DSP</p>
+            </div>
+
+            <figure class="thumb">
+              <div class="thumbbox" style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#f3f4f6;">
+                <img
+                  src="assets/microneedle.png"
+                  alt="Microneedle biosensor device and fabrication/measurement setup"
+                  class="thumb-img"
+                  loading="lazy"
+                  decoding="async"
+                  style="width:100%; height:100%; display:block; object-fit:cover; object-position:center;"
+                >
+              </div>
+              <figcaption class="muted small">Microneedle biosensor platform: fabrication, integration, and signal-quality validation.</figcaption>
+            </figure>
+
+            <p>Research-grade biosensor fabrication, sensor integration, and signal processing for continuous biomarker monitoring.</p>
+            <ul class="bullets small">
+              <li><strong>Fabrication:</strong> supported microfabrication workflows and thin-film sputtering for sensor structures.</li>
+              <li><strong>Integration:</strong> integrated electrochemical sensors with biocompatible substrates; debugged interface and noise issues.</li>
+              <li><strong>Signal pipelines:</strong> built DSP workflows (Butterworth, baseline correction, Savitzky–Golay) to clean biosensor data.</li>
+              <li><strong>Engineering Decision:</strong> tuned filtering and baseline correction based on measured noise characteristics from real runs (not default DSP settings).</li>
+            </ul>
+          </article>
+
+          <!-- Autonomous vehicle -->
+          <article class="card project">
+            <div class="project-top">
+              <h3 class="h3">Autonomous Vehicle — Jetson Nano + ROS2 + ML</h3>
+              <p class="tag">Embedded Linux • ROS2 • Debugging</p>
+            </div>
+
+            <figure class="thumb">
+              <div class="thumbbox" style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#f3f4f6;">
+                <img
+                  src="assets/robocar.png"
+                  alt="Autonomous robocar platform with sensors, embedded compute, and ROS2 stack"
+                  class="thumb-img"
+                  loading="lazy"
+                  decoding="async"
+                  style="width:100%; height:100%; display:block; object-fit:cover; object-position:center;"
+                >
+              </div>
+              <figcaption class="muted small">Autonomous vehicle stack (embedded Linux + ROS2) with full-system bring-up and debugging.</figcaption>
+            </figure>
+
+            <p>Built an autonomous scale vehicle and expanded into robotics systems engineering—now teaching and mentoring others as a TA.</p>
+            <ul class="bullets small">
+              <li><strong>Systems bring-up:</strong> integrated sensors/compute/control on embedded Linux; resolved device/driver/config issues.</li>
+              <li><strong>Perception:</strong> implemented OpenCV + applied ML workflows for real-time navigation.</li>
+              <li><strong>Mentorship:</strong> now help students debug similar stacks across hardware, firmware, OS, and ROS2 pipelines.</li>
+              <li><strong>Engineering Decision:</strong> reduced control latency by diagnosing OS/driver bottlenecks and tuning process scheduling/affinity on embedded Linux.</li>
+            </ul>
+          </article>
+
+          <!-- ECG + PPG -->
+          <article class="card project">
+            <div class="project-top">
+              <h3 class="h3">ECG + PPG Signal Analysis System</h3>
+              <p class="tag">DSP • Modeling • MATLAB/Python</p>
+            </div>
+
+            <figure class="thumb">
+              <div class="thumbbox" style="width:100%; aspect-ratio:16/9; border-radius:12px; overflow:hidden; background:#f3f4f6;">
+                <img
+                  src="assets/ecg-PPG.png"
+                  alt="ECG and PPG signal processing showing raw and filtered signals with detected peaks and valleys"
+                  class="thumb-img"
+                  loading="lazy"
+                  decoding="async"
+                  style="width:100%; height:100%; display:block; object-fit:cover; object-position:center;"
+                >
+              </div>
+              <figcaption class="muted small">ECG/PPG processing pipeline: raw signals, filtered outputs, and detected physiological landmarks.</figcaption>
+            </figure>
+
+            <p>Multi-signal acquisition and analysis for biomedical pattern recognition: filtering, synchronization, and model-driven comparison across subjects.</p>
+            <ul class="bullets small">
+              <li><strong>Acquisition:</strong> synchronized ECG and PPG signals using instrumentation modules and subject data collection.</li>
+              <li><strong>Pipeline:</strong> wrote scripts to filter and compare signals (Butterworth, Savitzky–Golay, baseline correction).</li>
+              <li><strong>Modeling:</strong> derived a generalized relationship across subjects to interpret biomarkers more robustly using both signals.</li>
+              <li><strong>Engineering Decision:</strong> selected filter cutoffs and smoothing windows based on physiological timing constraints and signal morphology preservation.</li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- Additional Projects -->
+        <div class="section-head" style="margin-top:22px;">
+          <h2 class="h2">Additional Projects</h2>
+        </div>
+
+        <div class="card">
+          <ul class="bullets">
+            <li><strong>Prosthetic Hand with EMG-Controlled Servo Motors</strong> — built a 3D-printed prosthetic hand and designed analog EMG signal-processing circuitry (DC offset, instrumentation amplifiers, HP/LP filters) plus Arduino firmware for real-time control.</li>
+            <li><strong>Breast Cancer Diagnostics (ML)</strong> — MATLAB classification pipeline using PCA and Logistic Regression / K-means for benign vs malignant tumor classification.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2">Skills</h2>
+          <!-- (hidden) hardware-first, then systems, then data -->
+        </div>
+
+        <div class="grid-3">
+          <div class="card">
+            <h3 class="h3">Hardware & Circuits</h3>
+            <ul class="bullets small">
+              <li>Circuit design, analog signal processing</li>
+              <li>PCB design/layout (Altium), assembly, soldering</li>
+              <li>Instrumentation amplifiers (AD622, AD8232, LM741)</li>
+              <li>Sensor integration, validation, bench testing</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="h3">Embedded & Systems</h3>
+            <ul class="bullets small">
+              <li>C/C++, Arduino, Jetson Nano, embedded systems</li>
+              <li>Embedded Linux bring-up, debugging, device configuration</li>
+              <li>ROS2, robotics integration, real-time troubleshooting</li>
+              <li>Hardware/firmware/OS debugging workflows</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3 class="h3">Signals, Data & ML</h3>
+            <ul class="bullets small">
+              <li>Python, MATLAB</li>
+              <li>DSP: Butterworth filters, Savitzky–Golay, baseline correction</li>
+              <li>Signal synchronization, feature extraction, plotting</li>
+              <li>Applied ML: OpenCV pipelines, classification/clustering</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="h2">Contact</h2>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3 class="h3">Get in touch</h3>
+            <p>Email is best. I’m happy to share additional technical details on request.</p>
+
+            <div class="contact-row">
+              <a class="btn btn-solid" href="mailto:joseAcastillo2024@outlook.com">Email</a>
+              <a class="btn btn-ghost" href="https://www.linkedin.com/in/josecv04" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn btn-ghost" href="https://github.com/josecv04" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+
+            <!-- Phone removed from public HTML to reduce spam; keep it on resume.pdf -->
+            <p class="muted small">Prefer email/LinkedIn for initial contact.</p>
+          </div>
+
+          <div class="card">
+            <h3 class="h3">Quick copy</h3>
+            <button class="copy" data-copy="joseAcastillo2024@outlook.com" type="button">Copy email</button>
+            <button class="copy" data-copy="https://www.linkedin.com/in/josecv04" type="button">Copy LinkedIn</button>
+            <button class="copy" data-copy="https://github.com/josecv04" type="button">Copy GitHub</button>
+
+            <div class="divider"></div>
+
+            <h3 class="h3">Resume</h3>
+            <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noreferrer">Open Resume PDF</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container foot">
+        <p class="muted small">© <span id="year"></span> Jose Castillo. Built with plain HTML/CSS.</p>
+        <p class="muted small"><a class="link" href="#top">Back to top</a></p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+
+  <!-- Lightbox (click-to-expand) -->
+  <div id="lightbox" class="lightbox" aria-hidden="true">
+    <div class="lightbox__backdrop" data-close></div>
+
+    <figure class="lightbox__panel" role="dialog" aria-modal="true" aria-label="Expanded image view">
+      <button class="lightbox__close" type="button" aria-label="Close" data-close>&times;</button>
+      <img id="lightboxImg" class="lightbox__img" alt="">
+      <figcaption id="lightboxCap" class="lightbox__cap muted small"></figcaption>
+    </figure>
+  </div>
+
+
+  <script>
+    (function () {
+      const lightbox = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lightboxImg");
+      const lbCap = document.getElementById("lightboxCap");
+
+      function openLightbox(src, alt, caption) {
+        lbImg.src = src;
+        lbImg.alt = alt || "";
+        lbCap.textContent = caption || "";
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lbImg.src = "";
+        document.body.style.overflow = "";
+      }
+
+      // Make all thumbnail images clickable
+      document.querySelectorAll(".thumbbox img").forEach((img) => {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => {
+          const figure = img.closest("figure");
+          const caption = figure?.querySelector("figcaption")?.textContent?.trim() || "";
+          openLightbox(img.getAttribute("src"), img.getAttribute("alt"), caption);
+        });
+      });
+
+      // Close on backdrop or close button
+      lightbox.addEventListener("click", (e) => {
+        if (e.target && e.target.hasAttribute("data-close")) closeLightbox();
+      });
+
+      // Close on ESC
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+      });
+    })();
+  </script>
+
+</body>
+</html>
