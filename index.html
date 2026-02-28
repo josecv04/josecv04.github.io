@@ -587,22 +587,18 @@ section {
   opacity: 0.35;
   z-index: 0;
 }
-.photo-placeholder {
+.photo-actual-wrap {
   width: 100%;
   aspect-ratio: 4/5;
-  background: var(--surface);
   border: 1px solid var(--border);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
   position: relative; z-index: 1;
   overflow: hidden;
 }
-.photo-placeholder::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(0,105,196,0.04) 0%, transparent 60%);
+.photo-actual-wrap img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
 }
-.photo-placeholder .placeholder-icon { font-size: 3rem; opacity: 0.25; }
 .photo-tag {
   position: absolute;
   bottom: -20px; right: -20px;
@@ -880,21 +876,16 @@ section {
   position: relative;
   overflow: hidden;
 }
-.project-image img {
+.project-image img.single-img {
   width: 100%; height: 100%; object-fit: cover;
   transition: transform 0.5s;
+  display: block;
 }
-.project-card:hover .project-image img { transform: scale(1.05); }
-.project-image-placeholder {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  background: linear-gradient(135deg, var(--surface), var(--bg3));
-}
-.project-image-placeholder .ph-icon { font-size: 2.5rem; opacity: 0.2; }
+.project-card:hover .project-image img.single-img { transform: scale(1.05); }
 .project-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(to top, rgba(8,12,16,0.6) 0%, transparent 60%);
+  pointer-events: none;
 }
 [data-theme="light"] .project-overlay {
   background: linear-gradient(to top, rgba(13,26,46,0.45) 0%, transparent 60%);
@@ -902,6 +893,7 @@ section {
 .project-cats {
   position: absolute; top: 12px; left: 12px;
   display: flex; gap: 6px; flex-wrap: wrap;
+  pointer-events: none;
 }
 .project-cat {
   font-family: 'JetBrains Mono', monospace;
@@ -956,6 +948,94 @@ section {
 .project-highlight .project-body { padding: 40px; }
 .project-highlight .project-title { font-size: 1.4rem; }
 .project-highlight .project-desc { font-size: 0.82rem; }
+
+/* ============================================================
+   IMAGE SLIDESHOW
+   ============================================================ */
+.img-slideshow {
+  position: relative;
+}
+.img-slideshow .slide {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.85s ease;
+  pointer-events: none;
+  display: block;
+}
+.img-slideshow .slide.active {
+  opacity: 1;
+}
+/* Subtle zoom on active slide */
+.img-slideshow .slide.active {
+  animation: slide-zoom 8s ease-in-out forwards;
+}
+@keyframes slide-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.04); }
+}
+.slide-ui {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.img-slideshow:hover .slide-ui { opacity: 1; }
+.slide-pause {
+  width: 28px; height: 28px;
+  border: 1px solid rgba(255,255,255,0.55);
+  background: rgba(8,12,16,0.60);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem;
+  cursor: none;
+  border-radius: 2px;
+  transition: background 0.2s, border-color 0.2s;
+  backdrop-filter: blur(6px);
+  line-height: 1;
+  padding: 0;
+}
+.slide-pause:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.slide-dots {
+  display: flex; gap: 5px; align-items: center;
+}
+.slide-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  border: 1px solid rgba(255,255,255,0.65);
+  transition: background 0.25s, transform 0.25s;
+  cursor: none;
+}
+.slide-dot.active {
+  background: #ffffff;
+  transform: scale(1.3);
+}
+/* Counter badge top-right for slideshows */
+.slide-counter {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 10;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(255,255,255,0.85);
+  background: rgba(8,12,16,0.60);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 3px 9px;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
 
 /* ============================================================
    SKILLS
@@ -1369,6 +1449,9 @@ footer {
   .theme-toggle, .cursor-btn,
   .contact-link, .pub-link, .nav-cta,
   .btn { cursor: auto; }
+  .slide-pause { cursor: pointer; }
+  .slide-dot   { cursor: pointer; }
+  .slide-ui    { opacity: 1; }
 }
 
 /* All interactive elements use none cursor (overridden to auto on mobile) */
@@ -1553,8 +1636,8 @@ a, button, .tab-btn, .discipline-pill,
     </div>
     <div class="about-photo-block reveal reveal-delay-2">
       <div class="photo-frame">
-        <div class="photo-placeholder">
-          <div class="placeholder-icon">👤</div>
+        <div class="photo-actual-wrap">
+          <img src="images/profile.png" alt="Jose Castillo">
         </div>
         <div class="photo-tag">UCSD · Jacobs Engineering</div>
       </div>
@@ -1658,11 +1741,13 @@ a, button, .tab-btn, .discipline-pill,
     <button class="tab-btn" data-tab="ml">ML &amp; Data</button>
   </div>
 
-  <!-- ALL TAB -->
+  <!-- ═══════════════ ALL TAB ═══════════════ -->
   <div class="project-panel active" id="panel-all">
+
+    <!-- LegoEEG — HIGHLIGHT (single image) -->
     <div class="project-card project-highlight" data-cats="biomedical hardware">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">🧠</div></div>
+        <img src="images/legoeeg.png" alt="LegoEEG Modular EEG Headset" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">PCB Design</span>
@@ -1689,9 +1774,10 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- Autonomous Vehicle (single image) -->
     <div class="project-card" data-cats="robotics">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">🚗</div></div>
+        <img src="images/autonomous-vehicle.png" alt="Autonomous Vehicle ROS2" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">Robotics</span>
@@ -1715,9 +1801,21 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- EMG Hand — SLIDESHOW (3 images) -->
     <div class="project-card" data-cats="biomedical hardware">
-      <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">✋</div></div>
+      <div class="project-image img-slideshow" data-slideshow>
+        <img src="images/emghand_3dmodel.png"                     alt="EMG Hand 3D Model"          class="slide active">
+        <img src="images/emghand_actualemghand+circuit.png"        alt="EMG Hand with Circuit"      class="slide">
+        <img src="images/emghand_circuit.png"                      alt="EMG Signal Circuit"         class="slide">
+        <div class="slide-counter">1 / 3</div>
+        <div class="slide-ui">
+          <button class="slide-pause" aria-label="Pause slideshow">⏸</button>
+          <div class="slide-dots">
+            <span class="slide-dot active"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+          </div>
+        </div>
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">Hardware</span>
@@ -1741,9 +1839,10 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- ECG+PPG (single image) -->
     <div class="project-card" data-cats="biomedical hardware">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">📡</div></div>
+        <img src="images/ecg-ppg.png" alt="ECG PPG Multi-Signal Acquisition" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">DSP</span>
@@ -1767,9 +1866,23 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- ML Cancer — SLIDESHOW (4 images) -->
     <div class="project-card" data-cats="ml">
-      <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">🔬</div></div>
+      <div class="project-image img-slideshow" data-slideshow>
+        <img src="images/mlproject_accruacyvsnumberofPCAcomponents_trainingset.png" alt="ML Accuracy vs PCA Components"            class="slide active">
+        <img src="images/mlproject_kmeansclusterfortestingset.png"                  alt="K-Means Cluster Testing Set"              class="slide">
+        <img src="images/mlproject_principalcomponent1vs2.png"                     alt="Principal Component 1 vs 2"               class="slide">
+        <img src="images/mlproject_varianceexplainedvsprincipalcomponents.png"     alt="Variance Explained vs Principal Components" class="slide">
+        <div class="slide-counter">1 / 4</div>
+        <div class="slide-ui">
+          <button class="slide-pause" aria-label="Pause slideshow">⏸</button>
+          <div class="slide-dots">
+            <span class="slide-dot active"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+          </div>
+        </div>
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">ML</span>
@@ -1794,9 +1907,10 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- Microneedle (single image) -->
     <div class="project-card" data-cats="biomedical">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">💉</div></div>
+        <img src="images/MNpicture.png" alt="Microneedle Biosensor Platform" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats">
           <span class="project-cat">Research</span>
@@ -1822,11 +1936,11 @@ a, button, .tab-btn, .discipline-pill,
     </div>
   </div>
 
-  <!-- BIOMEDICAL TAB -->
+  <!-- ═══════════════ BIOMEDICAL TAB ═══════════════ -->
   <div class="project-panel" id="panel-biomedical">
     <div class="project-card">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">🧠</div></div>
+        <img src="images/legoeeg.png" alt="LegoEEG" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">PCB Design</span></div>
       </div>
@@ -1837,8 +1951,19 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
     <div class="project-card">
-      <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">✋</div></div>
+      <div class="project-image img-slideshow" data-slideshow>
+        <img src="images/emghand_3dmodel.png"                alt="EMG Hand 3D Model"     class="slide active">
+        <img src="images/emghand_actualemghand+circuit.png"  alt="EMG Hand with Circuit" class="slide">
+        <img src="images/emghand_circuit.png"                alt="EMG Circuit"           class="slide">
+        <div class="slide-counter">1 / 3</div>
+        <div class="slide-ui">
+          <button class="slide-pause" aria-label="Pause slideshow">⏸</button>
+          <div class="slide-dots">
+            <span class="slide-dot active"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+          </div>
+        </div>
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">Hardware</span></div>
       </div>
@@ -1850,7 +1975,7 @@ a, button, .tab-btn, .discipline-pill,
     </div>
     <div class="project-card">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">📡</div></div>
+        <img src="images/ecg-ppg.png" alt="ECG PPG System" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">DSP</span></div>
       </div>
@@ -1862,11 +1987,11 @@ a, button, .tab-btn, .discipline-pill,
     </div>
   </div>
 
-  <!-- ROBOTICS TAB -->
+  <!-- ═══════════════ ROBOTICS TAB ═══════════════ -->
   <div class="project-panel" id="panel-robotics">
     <div class="project-card project-highlight">
       <div class="project-image" style="min-height:300px;">
-        <div class="project-image-placeholder"><div class="ph-icon">🚗</div></div>
+        <img src="images/autonomous-vehicle.png" alt="Autonomous Vehicle" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">Robotics</span><span class="project-cat">ROS2</span></div>
       </div>
@@ -1878,11 +2003,11 @@ a, button, .tab-btn, .discipline-pill,
     </div>
   </div>
 
-  <!-- HARDWARE TAB -->
+  <!-- ═══════════════ HARDWARE TAB ═══════════════ -->
   <div class="project-panel" id="panel-hardware">
     <div class="project-card">
       <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">🧠</div></div>
+        <img src="images/legoeeg.png" alt="LegoEEG PCB" class="single-img">
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">PCB</span></div>
       </div>
@@ -1893,8 +2018,19 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
     <div class="project-card">
-      <div class="project-image">
-        <div class="project-image-placeholder"><div class="ph-icon">✋</div></div>
+      <div class="project-image img-slideshow" data-slideshow>
+        <img src="images/emghand_3dmodel.png"                alt="EMG Hand 3D Model"     class="slide active">
+        <img src="images/emghand_actualemghand+circuit.png"  alt="EMG Hand with Circuit" class="slide">
+        <img src="images/emghand_circuit.png"                alt="EMG Circuit"           class="slide">
+        <div class="slide-counter">1 / 3</div>
+        <div class="slide-ui">
+          <button class="slide-pause" aria-label="Pause slideshow">⏸</button>
+          <div class="slide-dots">
+            <span class="slide-dot active"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+          </div>
+        </div>
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">Hardware</span></div>
       </div>
@@ -1906,11 +2042,24 @@ a, button, .tab-btn, .discipline-pill,
     </div>
   </div>
 
-  <!-- ML TAB -->
+  <!-- ═══════════════ ML TAB ═══════════════ -->
   <div class="project-panel" id="panel-ml">
     <div class="project-card project-highlight">
-      <div class="project-image" style="min-height:300px;">
-        <div class="project-image-placeholder"><div class="ph-icon">🔬</div></div>
+      <div class="project-image img-slideshow" data-slideshow style="min-height:300px;">
+        <img src="images/mlproject_accruacyvsnumberofPCAcomponents_trainingset.png" alt="ML Accuracy vs PCA Components"             class="slide active">
+        <img src="images/mlproject_kmeansclusterfortestingset.png"                  alt="K-Means Cluster Testing Set"              class="slide">
+        <img src="images/mlproject_principalcomponent1vs2.png"                     alt="Principal Component 1 vs 2"               class="slide">
+        <img src="images/mlproject_varianceexplainedvsprincipalcomponents.png"     alt="Variance Explained vs Principal Components" class="slide">
+        <div class="slide-counter">1 / 4</div>
+        <div class="slide-ui">
+          <button class="slide-pause" aria-label="Pause slideshow">⏸</button>
+          <div class="slide-dots">
+            <span class="slide-dot active"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+            <span class="slide-dot"></span>
+          </div>
+        </div>
         <div class="project-overlay"></div>
         <div class="project-cats"><span class="project-cat">ML</span><span class="project-cat">Healthcare</span></div>
       </div>
@@ -2251,11 +2400,6 @@ a, button, .tab-btn, .discipline-pill,
     return getComputedStyle(html).getPropertyValue('--accent').trim();
   }
 
-  /*
-   * FIX: updatePcbColor is defined here — before applyTheme is called —
-   * and uses document.getElementById directly to avoid a temporal dead zone
-   * ReferenceError caused by referencing a const before its declaration.
-   */
   function updatePcbColor() {
     const el = document.getElementById('cursor-pcb');
     if (el) el.style.color = getAccent();
@@ -2270,7 +2414,7 @@ a, button, .tab-btn, .discipline-pill,
     html.setAttribute('data-theme', theme);
     themeIcon.textContent = (theme === 'dark') ? '☀' : '☽';
     localStorage.setItem('jc-theme', theme);
-    updatePcbColor(); // safe: uses getElementById, no TDZ risk
+    updatePcbColor();
   }
 
   function themeTransition(e) {
@@ -2311,18 +2455,12 @@ a, button, .tab-btn, .discipline-pill,
   applyTheme(savedTheme);
 
   /* ── NAV SCROLL ─────────────────────────────────────── */
-  /* Runs on ALL devices — not inside mobile gate */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
 
   /* ── SCROLL REVEAL ──────────────────────────────────── */
-  /*
-   * FIX: This was previously AFTER `if (isMobile()) return;` which caused
-   * ALL .reveal elements to stay at opacity:0 on mobile / narrow windows.
-   * Moved here so it always runs regardless of screen size.
-   */
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -2332,11 +2470,11 @@ a, button, .tab-btn, .discipline-pill,
         });
       }
     });
-  }, { threshold: 0.05 }); /* lowered from 0.1 → 0.05 so tall elements still trigger */
+  }, { threshold: 0.05 });
 
   document.querySelectorAll('.reveal, .timeline-item').forEach(el => revealObserver.observe(el));
 
-  /* ── SKILLS BARS (section-level trigger) ─────────────── */
+  /* ── SKILLS BARS ────────────────────────────────────── */
   const skillsSection = document.getElementById('skills');
   if (skillsSection) {
     new IntersectionObserver((entries) => {
@@ -2351,7 +2489,6 @@ a, button, .tab-btn, .discipline-pill,
   }
 
   /* ── TYPING EFFECT ──────────────────────────────────── */
-  /* Also runs on all devices */
   const roles   = ['Bioengineer', 'Circuit Designer', 'Robotics TA', 'ACS Co-Author', 'PCB Designer', 'Signal Engineer'];
   let ri = 0, ci = 0, deleting = false;
   const typedEl = document.getElementById('typed-role');
@@ -2398,11 +2535,56 @@ a, button, .tab-btn, .discipline-pill,
     });
   });
 
+  /* ── IMAGE SLIDESHOWS ───────────────────────────────── */
+  function initSlideshow(ss) {
+    const slides   = Array.from(ss.querySelectorAll('.slide'));
+    const dots     = Array.from(ss.querySelectorAll('.slide-dot'));
+    const pauseBtn = ss.querySelector('.slide-pause');
+    const counter  = ss.querySelector('.slide-counter');
+    const total    = slides.length;
+    let idx    = 0;
+    let paused = false;
+    let timer;
+
+    function goTo(n) {
+      /* Remove active from current */
+      slides[idx].classList.remove('active');
+      if (dots[idx]) dots[idx].classList.remove('active');
+      /* Advance */
+      idx = (n + total) % total;
+      slides[idx].classList.add('active');
+      if (dots[idx]) dots[idx].classList.add('active');
+      /* Update counter */
+      if (counter) counter.textContent = (idx + 1) + ' / ' + total;
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => { if (!paused) goTo(idx + 1); }, 3600);
+    }
+
+    if (pauseBtn) {
+      pauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        paused = !paused;
+        pauseBtn.textContent = paused ? '▶' : '⏸';
+        pauseBtn.setAttribute('aria-label', paused ? 'Resume slideshow' : 'Pause slideshow');
+      });
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goTo(i);
+      });
+    });
+
+    startTimer();
+  }
+
+  document.querySelectorAll('[data-slideshow]').forEach(initSlideshow);
+
   /* ── CURSORS (desktop only) ──────────────────────────── */
-  /*
-   * FIX: Only cursor logic is gated by isMobile().
-   * Previously this early return killed ALL JS below it.
-   */
   if (isMobile()) return;
 
   const cursorPro = document.getElementById('cursor-pro');
