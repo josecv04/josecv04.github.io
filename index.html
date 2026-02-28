@@ -73,16 +73,7 @@ body {
 }
 
 /* ============================================================
-   CURSOR — HIDE DEFAULT
-   ============================================================ */
-*, a, button, .tab-btn, .discipline-pill,
-.theme-toggle, .cursor-btn,
-.contact-link, .pub-link, .nav-cta, .btn {
-  cursor: none !important;
-}
-
-/* ============================================================
-   CURSOR — PROFESSIONAL (minimal single dot + crosshair)
+   CURSOR 1 — PROFESSIONAL
    ============================================================ */
 #cursor-pro {
   position: fixed;
@@ -90,70 +81,48 @@ body {
   z-index: 99999;
   top: 0; left: 0;
   transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition:
+    width  0.18s ease,
+    height 0.18s ease,
+    background 0.3s ease,
+    opacity 0.2s ease;
+  will-change: transform;
   display: none;
 }
-[data-cursor="pro"] #cursor-pro { display: block; }
 
-.cursor-pro-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-  border-radius: 50%;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.15s ease, height 0.15s ease, background 0.3s;
-}
-
-/* The four crosshair arms — hidden by default, visible on hover */
-.cursor-pro-arm {
-  position: absolute;
-  background: var(--accent);
-  border-radius: 1px;
-  opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
-}
-.cursor-pro-arm.n, .cursor-pro-arm.s {
-  width: 1px; height: 6px;
-  left: 50%; transform: translateX(-50%);
-}
-.cursor-pro-arm.e, .cursor-pro-arm.w {
-  height: 1px; width: 6px;
-  top: 50%; transform: translateY(-50%);
-}
-.cursor-pro-arm.n { bottom: calc(50% + 5px); }
-.cursor-pro-arm.s { top:    calc(50% + 5px); }
-.cursor-pro-arm.e { left:   calc(50% + 5px); }
-.cursor-pro-arm.w { right:  calc(50% + 5px); }
-
-body.cursor-hover [data-cursor="pro"] #cursor-pro .cursor-pro-arm { opacity: 1; }
-body.cursor-hover [data-cursor="pro"] #cursor-pro .cursor-pro-dot {
-  width: 7px; height: 7px;
+body.cursor-hover #cursor-pro {
+  width: 11px;
+  height: 11px;
+  background: var(--accent2);
 }
 
 /* ============================================================
-   CURSOR — PCB (circular PCB trace design)
+   CURSOR 2 — PCB VIA
    ============================================================ */
 #cursor-pcb {
   position: fixed;
   pointer-events: none;
   z-index: 99999;
   top: 0; left: 0;
+  width: 48px;
+  height: 48px;
   transform: translate(-50%, -50%);
   display: none;
-  width: 48px;
-  height: 48px;
+  will-change: transform;
 }
-[data-cursor="pcb"] #cursor-pcb { display: block; }
 
 #cursor-pcb svg {
-  width: 48px;
-  height: 48px;
-  transition: filter 0.2s;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: opacity 0.2s;
 }
-body.cursor-hover #cursor-pcb svg {
-  filter: drop-shadow(0 0 6px var(--accent));
-}
+
+body.cursor-hover #cursor-pcb { width: 58px; height: 58px; }
 
 /* ============================================================
    CURSOR TOGGLE BUTTON
@@ -176,7 +145,7 @@ body.cursor-hover #cursor-pcb svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none !important;
+  cursor: none;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.58rem;
   letter-spacing: 0.05em;
@@ -189,7 +158,6 @@ body.cursor-hover #cursor-pcb svg {
   color: var(--accent);
   background: rgba(56,189,248,0.08);
 }
-[data-theme="light"] .cursor-btn.active { background: rgba(0,105,196,0.06); }
 .cursor-btn:hover { border-color: var(--accent); color: var(--accent); }
 .cursor-btn .tooltip {
   position: absolute;
@@ -224,7 +192,7 @@ body.cursor-hover #cursor-pcb svg {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: none !important;
+  cursor: none;
   transition: all 0.25s;
   font-size: 1rem;
   position: relative;
@@ -409,6 +377,10 @@ nav.scrolled { padding: 14px 60px; }
   -webkit-text-stroke: 1.5px var(--text-muted);
   color: transparent;
 }
+.hero-name .accent-dot {
+  color: var(--accent);
+  -webkit-text-stroke: 0;
+}
 
 .hero-tagline {
   font-family: 'DM Serif Display', serif;
@@ -437,7 +409,7 @@ nav.scrolled { padding: 14px 60px; }
   letter-spacing: 0.08em;
   background: rgba(255,255,255,0.02);
   transition: all 0.3s;
-  cursor: none !important;
+  cursor: none;
 }
 [data-theme="light"] .discipline-pill { background: rgba(0,0,0,0.02); }
 .discipline-pill:hover {
@@ -469,6 +441,7 @@ nav.scrolled { padding: 14px 60px; }
   text-transform: uppercase;
   transition: all 0.25s;
   display: inline-flex; align-items: center; gap: 10px;
+  cursor: none;
 }
 .btn-primary {
   background: var(--accent);
@@ -759,6 +732,7 @@ section {
   letter-spacing: 0.1em;
   margin-top: 24px;
   transition: gap 0.2s;
+  cursor: none;
 }
 .pub-link:hover { gap: 14px; }
 
@@ -777,7 +751,7 @@ section {
   position: relative;
   overflow: hidden;
   transition: all 0.3s;
-  cursor: default;
+  cursor: none;
   box-shadow: 0 1px 4px var(--shadow);
 }
 .research-item::after {
@@ -864,7 +838,7 @@ section {
   background: none;
   border: none;
   color: var(--text-dim);
-  cursor: none !important;
+  cursor: none;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   transition: all 0.2s;
@@ -1048,7 +1022,7 @@ section {
   color: var(--text-muted);
   background: var(--surface);
   transition: all 0.25s;
-  cursor: default;
+  cursor: none;
   letter-spacing: 0.04em;
 }
 .tech-chip:hover {
@@ -1235,6 +1209,7 @@ section {
   background: var(--surface);
   transition: all 0.3s;
   box-shadow: 0 1px 4px var(--shadow);
+  cursor: none;
 }
 .contact-link:hover {
   border-color: var(--accent);
@@ -1389,58 +1364,55 @@ footer {
   .form-row { grid-template-columns: 1fr; }
   footer { flex-direction: column; gap: 12px; text-align: center; }
   #cursor-pro, #cursor-pcb, .cursor-toggle { display: none !important; }
-  body { cursor: auto !important; }
-  * { cursor: auto !important; }
+  body { cursor: auto; }
+  a, button, .tab-btn, .discipline-pill,
+  .theme-toggle, .cursor-btn,
+  .contact-link, .pub-link, .nav-cta,
+  .btn { cursor: auto; }
 }
+
+/* All interactive elements use none cursor (overridden to auto on mobile) */
+a, button, .tab-btn, .discipline-pill,
+.theme-toggle, .cursor-btn,
+.contact-link, .pub-link, .nav-cta,
+.btn { cursor: none; }
 </style>
 </head>
 <body>
 
-<!-- ============================================================
-     CURSOR — PROFESSIONAL (single dot + crosshair on hover)
-     ============================================================ -->
-<div id="cursor-pro" aria-hidden="true">
-  <div style="position:relative;width:24px;height:24px;">
-    <div class="cursor-pro-arm n"></div>
-    <div class="cursor-pro-arm s"></div>
-    <div class="cursor-pro-arm e"></div>
-    <div class="cursor-pro-arm w"></div>
-    <div class="cursor-pro-dot"></div>
-  </div>
-</div>
+<!-- CURSOR 1 — PROFESSIONAL -->
+<div id="cursor-pro" aria-hidden="true"></div>
 
-<!-- ============================================================
-     CURSOR — PCB CIRCULAR (SVG, rebuilt each frame)
-     ============================================================ -->
+<!-- CURSOR 2 — PCB VIA -->
 <div id="cursor-pcb" aria-hidden="true">
-  <!-- SVG is injected by JS so we can animate it cleanly -->
-  <svg id="pcb-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Outer ring -->
-    <circle id="pcb-ring-outer" cx="24" cy="24" r="20" stroke-width="0.8" opacity="0.5"/>
-    <!-- Middle ring -->
-    <circle id="pcb-ring-mid" cx="24" cy="24" r="14" stroke-width="0.6" opacity="0.4"/>
-    <!-- Inner ring / pad -->
-    <circle id="pcb-ring-inner" cx="24" cy="24" r="4" stroke-width="1" opacity="0.9"/>
-    <!-- Center dot -->
-    <circle id="pcb-center" cx="24" cy="24" r="1.5" opacity="1"/>
-    <!-- Traces (8 lines from r=4 to r=14, at 45° increments) -->
-    <g id="pcb-traces" opacity="0.6"></g>
-    <!-- Pads at trace ends (on middle ring, at 45° increments) -->
-    <g id="pcb-pads"></g>
-    <!-- Via holes on outer ring (at 22.5° increments, 8 of them) -->
-    <g id="pcb-vias" opacity="0.45"></g>
+  <svg viewBox="-24 -24 48 48" xmlns="http://www.w3.org/2000/svg" id="pcb-svg">
+    <circle cx="0" cy="0" r="18" stroke="currentColor" stroke-width="1" fill="none" opacity="0.35"/>
+    <line x1="0" y1="-18" x2="0" y2="-22" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+    <line x1="18" y1="0" x2="22" y2="0" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+    <line x1="0" y1="18" x2="0" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+    <line x1="-18" y1="0" x2="-22" y2="0" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/>
+    <rect x="-2.5" y="-24" width="5" height="3.5" rx="0.5" fill="currentColor" opacity="0.7"/>
+    <rect x="21"   y="-2.5" width="3.5" height="5" rx="0.5" fill="currentColor" opacity="0.7"/>
+    <rect x="-2.5" y="20.5" width="5" height="3.5" rx="0.5" fill="currentColor" opacity="0.7"/>
+    <rect x="-24.5" y="-2.5" width="3.5" height="5" rx="0.5" fill="currentColor" opacity="0.7"/>
+    <circle cx="0" cy="0" r="9" stroke="currentColor" stroke-width="2" fill="none" opacity="0.9"/>
+    <circle cx="0" cy="0" r="3" fill="currentColor" opacity="1"/>
+    <line x1="6.4" y1="-6.4" x2="12" y2="-12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="6.4" y1="6.4" x2="12" y2="12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="-6.4" y1="6.4" x2="-12" y2="12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
+    <line x1="-6.4" y1="-6.4" x2="-12" y2="-12" stroke="currentColor" stroke-width="0.8" stroke-linecap="round" opacity="0.5"/>
   </svg>
 </div>
 
 <!-- CURSOR TOGGLE -->
-<div class="cursor-toggle" role="group" aria-label="Cursor style" id="cursor-toggle-group">
+<div class="cursor-toggle" role="group" aria-label="Cursor style">
   <button class="cursor-btn active" id="btn-cursor-pro" aria-pressed="true">
-    <span class="tooltip">Minimal cursor</span>
+    <span class="tooltip">Professional cursor</span>
     ✦
   </button>
   <button class="cursor-btn" id="btn-cursor-pcb" aria-pressed="false">
     <span class="tooltip">PCB cursor</span>
-    ◎
+    ⬡
   </button>
 </div>
 
@@ -1451,11 +1423,11 @@ footer {
     <span id="theme-icon">☽</span>
   </button>
 </div>
+
+<!-- Ripple overlay for theme transition -->
 <div id="theme-ripple"></div>
 
-<!-- ============================================================
-     NAV
-     ============================================================ -->
+<!-- NAV -->
 <nav id="navbar">
   <a href="#hero" class="nav-logo">Jose Castillo</a>
   <ul class="nav-links">
@@ -1470,9 +1442,7 @@ footer {
   <a href="resume.pdf" class="nav-cta" target="_blank">Resume ↗</a>
 </nav>
 
-<!-- ============================================================
-     HERO
-     ============================================================ -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-grid-bg"></div>
   <div class="hero-orb hero-orb-1"></div>
@@ -1536,9 +1506,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     ABOUT
-     ============================================================ -->
+<!-- ABOUT -->
 <section id="about">
   <div class="section-header reveal">
     <div class="section-eyebrow">01 / About</div>
@@ -1593,9 +1561,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     PUBLICATIONS
-     ============================================================ -->
+<!-- PUBLICATIONS -->
 <section id="publications">
   <div class="section-header reveal">
     <div class="section-eyebrow">02 / Publications</div>
@@ -1624,16 +1590,13 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     RESEARCH
-     ============================================================ -->
+<!-- RESEARCH -->
 <section id="research">
   <div class="section-header reveal">
     <div class="section-eyebrow">03 / Research</div>
     <h2 class="section-title">Lab work that <span class="muted">ships</span><br>to clinical trials.</h2>
   </div>
   <div class="research-grid">
-
     <div class="research-item reveal">
       <div class="research-number">01</div>
       <div class="research-org">NBE Lab · UC San Diego</div>
@@ -1676,13 +1639,10 @@ footer {
       </ul>
       <div class="research-period">Jun 2025 – Present</div>
     </div>
-
   </div>
 </section>
 
-<!-- ============================================================
-     PROJECTS
-     ============================================================ -->
+<!-- PROJECTS -->
 <section id="projects">
   <div class="section-header reveal">
     <div class="section-eyebrow">04 / Projects</div>
@@ -1820,7 +1780,8 @@ footer {
         <div class="project-desc">
           Logistic Regression + K-Means clustering pipeline in MATLAB achieving
           96.49% accuracy on a 569-patient dataset. Applied PCA for dimensionality
-          reduction to improve feature interpretability and model efficiency.
+          reduction to improve feature interpretability and model efficiency for
+          benign vs. malignant classification.
         </div>
         <div class="project-tech">
           <span class="tech-tag">MATLAB</span>
@@ -1845,8 +1806,9 @@ footer {
         <div class="project-title">Microneedle Biosensor Platform — NBE Lab</div>
         <div class="project-desc">
           Clinical-grade microneedle array biosensors for continuous biomarker monitoring.
-          Co-authored ACS Sensors (2026), spanning the full pipeline from sputtering and
-          microfabrication through electrochemical characterization and Bluetooth wireless readout.
+          This work contributed to co-authorship in ACS Sensors (2026), spanning the full
+          pipeline from sputtering and microfabrication through electrochemical
+          characterization and Bluetooth wireless readout.
         </div>
         <div class="project-tech">
           <span class="tech-tag">Sputtering</span>
@@ -1862,7 +1824,11 @@ footer {
   <!-- BIOMEDICAL TAB -->
   <div class="project-panel" id="panel-biomedical">
     <div class="project-card">
-      <div class="project-image"><div class="project-image-placeholder"><div class="ph-icon">🧠</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">PCB Design</span></div></div>
+      <div class="project-image">
+        <div class="project-image-placeholder"><div class="ph-icon">🧠</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">PCB Design</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">"LegoEEG" Modular EEG Headset</div>
         <div class="project-desc">Custom Altium PCBs, PEDOT:PSS–PVA hydrogel electrodes, and full electrical subsystem lead.</div>
@@ -1870,7 +1836,11 @@ footer {
       </div>
     </div>
     <div class="project-card">
-      <div class="project-image"><div class="project-image-placeholder"><div class="ph-icon">✋</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">Hardware</span></div></div>
+      <div class="project-image">
+        <div class="project-image-placeholder"><div class="ph-icon">✋</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">Hardware</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">EMG-Controlled Prosthetic Hand</div>
         <div class="project-desc">Real-time EMG signal processing with AD622, servo actuation, and Arduino firmware.</div>
@@ -1878,7 +1848,11 @@ footer {
       </div>
     </div>
     <div class="project-card">
-      <div class="project-image"><div class="project-image-placeholder"><div class="ph-icon">📡</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">DSP</span></div></div>
+      <div class="project-image">
+        <div class="project-image-placeholder"><div class="ph-icon">📡</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">DSP</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">ECG + PPG Multi-Signal System</div>
         <div class="project-desc">Synchronized cardiac and perfusion signal acquisition with an advanced MATLAB DSP pipeline.</div>
@@ -1890,7 +1864,11 @@ footer {
   <!-- ROBOTICS TAB -->
   <div class="project-panel" id="panel-robotics">
     <div class="project-card project-highlight">
-      <div class="project-image" style="min-height:300px;"><div class="project-image-placeholder"><div class="ph-icon">🚗</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">Robotics</span><span class="project-cat">ROS2</span></div></div>
+      <div class="project-image" style="min-height:300px;">
+        <div class="project-image-placeholder"><div class="ph-icon">🚗</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">Robotics</span><span class="project-cat">ROS2</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">Autonomous Vehicle — Jetson Nano + ROS2 + ML</div>
         <div class="project-desc">Fully autonomous scale vehicle. Designed the system, implemented the ROS2 stack, OpenCV perception, and ML control. Currently teaching this exact course to 60+ students as TA under Dr. Jack Silberman.</div>
@@ -1902,7 +1880,11 @@ footer {
   <!-- HARDWARE TAB -->
   <div class="project-panel" id="panel-hardware">
     <div class="project-card">
-      <div class="project-image"><div class="project-image-placeholder"><div class="ph-icon">🧠</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">PCB</span></div></div>
+      <div class="project-image">
+        <div class="project-image-placeholder"><div class="ph-icon">🧠</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">PCB</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">"LegoEEG" Modular EEG Headset</div>
         <div class="project-desc">End-to-end PCB design in Altium. Analog front-end, noise-aware routing, and electrode–skin impedance characterization.</div>
@@ -1910,7 +1892,11 @@ footer {
       </div>
     </div>
     <div class="project-card">
-      <div class="project-image"><div class="project-image-placeholder"><div class="ph-icon">✋</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">Hardware</span></div></div>
+      <div class="project-image">
+        <div class="project-image-placeholder"><div class="ph-icon">✋</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">Hardware</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">EMG Prosthetic Hand</div>
         <div class="project-desc">Analog signal chain design, LM741/AD622 instrumentation amplifiers, Arduino firmware, and 3D-printed mechanics.</div>
@@ -1922,19 +1908,21 @@ footer {
   <!-- ML TAB -->
   <div class="project-panel" id="panel-ml">
     <div class="project-card project-highlight">
-      <div class="project-image" style="min-height:300px;"><div class="project-image-placeholder"><div class="ph-icon">🔬</div></div><div class="project-overlay"></div><div class="project-cats"><span class="project-cat">ML</span><span class="project-cat">Healthcare</span></div></div>
+      <div class="project-image" style="min-height:300px;">
+        <div class="project-image-placeholder"><div class="ph-icon">🔬</div></div>
+        <div class="project-overlay"></div>
+        <div class="project-cats"><span class="project-cat">ML</span><span class="project-cat">Healthcare</span></div>
+      </div>
       <div class="project-body">
         <div class="project-title">Breast Cancer Diagnostics — ML Pipeline</div>
-        <div class="project-desc">96.49% accuracy on a 569-patient dataset using Logistic Regression, K-Means, and PCA in MATLAB.</div>
+        <div class="project-desc">96.49% accuracy on a 569-patient dataset using Logistic Regression, K-Means, and PCA in MATLAB. Applied dimensionality reduction for feature interpretability in clinical classification tasks.</div>
         <div class="project-tech"><span class="tech-tag">MATLAB</span><span class="tech-tag">PCA</span><span class="tech-tag">Logistic Regression</span><span class="tech-tag">K-Means</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     SKILLS
-     ============================================================ -->
+<!-- SKILLS -->
 <section id="skills">
   <div class="section-header reveal">
     <div class="section-eyebrow">05 / Skills</div>
@@ -1946,32 +1934,50 @@ footer {
         <div class="skill-domain-title">Programming Languages</div>
         <div class="skill-bar-group">
           <div class="skill-bar-item">
-            <div class="skill-bar-meta"><span class="skill-bar-name">Python</span><span class="skill-bar-level">Advanced</span></div>
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">Python</span>
+              <span class="skill-bar-level">Advanced</span>
+            </div>
             <div class="skill-bar-track"><div class="skill-bar-fill" data-width="92"></div></div>
           </div>
           <div class="skill-bar-item">
-            <div class="skill-bar-meta"><span class="skill-bar-name">MATLAB</span><span class="skill-bar-level">Advanced</span></div>
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">MATLAB</span>
+              <span class="skill-bar-level">Advanced</span>
+            </div>
             <div class="skill-bar-track"><div class="skill-bar-fill" data-width="88"></div></div>
           </div>
           <div class="skill-bar-item">
-            <div class="skill-bar-meta"><span class="skill-bar-name">C++</span><span class="skill-bar-level">Proficient</span></div>
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">C++</span>
+              <span class="skill-bar-level">Proficient</span>
+            </div>
             <div class="skill-bar-track"><div class="skill-bar-fill" data-width="72"></div></div>
           </div>
         </div>
       </div>
+
       <div class="skill-domain reveal">
         <div class="skill-domain-title">Frameworks &amp; Software</div>
         <div class="tech-cloud">
-          <span class="tech-chip">ROS/ROS2</span><span class="tech-chip">Docker</span>
-          <span class="tech-chip">OpenCV</span><span class="tech-chip">SLAM</span>
-          <span class="tech-chip">TensorFlow</span><span class="tech-chip">PyTorch</span>
-          <span class="tech-chip">Scikit-Learn</span><span class="tech-chip">OpenSIM</span>
-          <span class="tech-chip">Altium Designer</span><span class="tech-chip">SOLIDWORKS</span>
-          <span class="tech-chip">AutoCAD</span><span class="tech-chip">LabVIEW</span>
-          <span class="tech-chip">PSpice</span><span class="tech-chip">Arduino IDE</span>
+          <span class="tech-chip">ROS/ROS2</span>
+          <span class="tech-chip">Docker</span>
+          <span class="tech-chip">OpenCV</span>
+          <span class="tech-chip">SLAM</span>
+          <span class="tech-chip">TensorFlow</span>
+          <span class="tech-chip">PyTorch</span>
+          <span class="tech-chip">Scikit-Learn</span>
+          <span class="tech-chip">OpenSIM</span>
+          <span class="tech-chip">Altium Designer</span>
+          <span class="tech-chip">SOLIDWORKS</span>
+          <span class="tech-chip">AutoCAD</span>
+          <span class="tech-chip">LabVIEW</span>
+          <span class="tech-chip">PSpice</span>
+          <span class="tech-chip">Arduino IDE</span>
           <span class="tech-chip">PSTrace</span>
         </div>
       </div>
+
       <div class="skill-domain reveal">
         <div class="skill-domain-title">Signal Processing</div>
         <div class="skill-bar-group">
@@ -1990,6 +1996,7 @@ footer {
         </div>
       </div>
     </div>
+
     <div>
       <div class="skill-domain reveal">
         <div class="skill-domain-title">Hardware &amp; Fabrication</div>
@@ -2008,6 +2015,7 @@ footer {
           <span class="tech-chip hardware">SMD Soldering</span>
         </div>
       </div>
+
       <div class="skill-domain reveal">
         <div class="skill-domain-title">Biomedical Techniques</div>
         <div class="tech-cloud">
@@ -2020,6 +2028,7 @@ footer {
           <span class="tech-chip hardware">Potentiostat Operations</span>
         </div>
       </div>
+
       <div class="skill-domain reveal">
         <div class="skill-domain-title">Robotics &amp; Autonomy</div>
         <div class="skill-bar-group">
@@ -2041,9 +2050,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     EXPERIENCE
-     ============================================================ -->
+<!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header reveal">
     <div class="section-eyebrow">06 / Experience</div>
@@ -2110,9 +2117,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     EDUCATION
-     ============================================================ -->
+<!-- EDUCATION -->
 <section id="education">
   <div class="section-header reveal">
     <div class="section-eyebrow">07 / Education</div>
@@ -2142,9 +2147,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     CONTACT
-     ============================================================ -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="contact-layout">
     <div class="reveal">
@@ -2192,6 +2195,7 @@ footer {
         </a>
       </div>
     </div>
+
     <div class="reveal reveal-delay-2">
       <div class="contact-form-title">Quick Message</div>
       <div class="form-row">
@@ -2223,9 +2227,7 @@ footer {
   </div>
 </section>
 
-<!-- ============================================================
-     FOOTER
-     ============================================================ -->
+<!-- FOOTER -->
 <footer>
   <span class="footer-logo">Jose Castillo © 2026</span>
   <span class="footer-copy">Bioengineering · EE · Robotics · UC San Diego</span>
@@ -2238,157 +2240,98 @@ footer {
 (function () {
   'use strict';
 
-  /* ────────────────────────────────────────────────────────
-     THEME
-     ──────────────────────────────────────────────────────── */
-  const html      = document.documentElement;
-  const themeBtn  = document.getElementById('theme-toggle');
-  const themeIcon = document.getElementById('theme-icon');
-  const ripple    = document.getElementById('theme-ripple');
+  /* ── DETECT MOBILE ─────────────────────────────────── */
+  const isMobile = () => window.innerWidth <= 900 || 'ontouchstart' in window;
+
+  /* ── HELPERS ────────────────────────────────────────── */
+  const html = document.documentElement;
 
   function getAccent() {
     return getComputedStyle(html).getPropertyValue('--accent').trim();
   }
 
+  /*
+   * FIX: updatePcbColor is defined here — before applyTheme is called —
+   * and uses document.getElementById directly to avoid a temporal dead zone
+   * ReferenceError caused by referencing a const before its declaration.
+   */
+  function updatePcbColor() {
+    const el = document.getElementById('cursor-pcb');
+    if (el) el.style.color = getAccent();
+  }
+
+  /* ── THEME ──────────────────────────────────────────── */
+  const themeBtn  = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  const ripple    = document.getElementById('theme-ripple');
+
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
     themeIcon.textContent = (theme === 'dark') ? '☀' : '☽';
     localStorage.setItem('jc-theme', theme);
-    buildPCBSvg(); // refresh PCB colors
+    updatePcbColor(); // safe: uses getElementById, no TDZ risk
   }
 
   function themeTransition(e) {
     const x = e.clientX ?? window.innerWidth / 2;
     const y = e.clientY ?? window.innerHeight / 2;
-    const maxR = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
-    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    const maxR = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
     const rippleColor = next === 'dark' ? '#080c10' : '#f7f5f0';
 
     ripple.style.cssText = `
-      width:${maxR*2}px;height:${maxR*2}px;
-      top:${y}px;left:${x}px;
-      background:${rippleColor};
-      border-radius:50%;
-      transform:translate(-50%,-50%) scale(0);
-      transition:transform 0.65s cubic-bezier(0.22,0.61,0.36,1);
+      width: ${maxR * 2}px;
+      height: ${maxR * 2}px;
+      top: ${y}px;
+      left: ${x}px;
+      background: ${rippleColor};
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1);
     `;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      ripple.style.transform = 'translate(-50%,-50%) scale(1)';
-      setTimeout(() => {
-        applyTheme(next);
-        ripple.style.transition = 'none';
-        ripple.style.transform  = 'translate(-50%,-50%) scale(0)';
-      }, 350);
-    }));
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ripple.style.transform = 'translate(-50%, -50%) scale(1)';
+        setTimeout(() => {
+          applyTheme(next);
+          ripple.style.transition = 'none';
+          ripple.style.transform  = 'translate(-50%, -50%) scale(0)';
+        }, 350);
+      });
+    });
   }
 
   themeBtn.addEventListener('click', themeTransition);
-  applyTheme(localStorage.getItem('jc-theme') || 'light');
+  const savedTheme = localStorage.getItem('jc-theme') || 'light';
+  applyTheme(savedTheme);
 
-  /* ────────────────────────────────────────────────────────
-     PCB SVG BUILDER — draws the circular PCB cursor art
-     ──────────────────────────────────────────────────────── */
-  const pcbSvg = document.getElementById('pcb-svg');
+  /* ── CURSORS ─────────────────────────────────────────── */
+  if (isMobile()) return;
 
-  function buildPCBSvg() {
-    const accent = getAccent();
-
-    // Set stroke colors on all stroked elements
-    pcbSvg.querySelectorAll('circle, line, rect').forEach(el => {
-      if (el.hasAttribute('stroke') || el.id.startsWith('pcb-ring') || el.id === 'pcb-ring-outer' || el.id === 'pcb-ring-mid' || el.id === 'pcb-ring-inner') {
-        el.setAttribute('stroke', accent);
-      }
-      if (el.getAttribute('fill') === 'none') {
-        // keep transparent
-      } else if (el.id === 'pcb-center' || el.closest('#pcb-pads') || el.closest('#pcb-vias')) {
-        el.setAttribute('fill', accent);
-      }
-    });
-
-    // Rebuild traces, pads, vias dynamically
-    const traces = document.getElementById('pcb-traces');
-    const pads   = document.getElementById('pcb-pads');
-    const vias   = document.getElementById('pcb-vias');
-
-    traces.innerHTML = '';
-    pads.innerHTML   = '';
-    vias.innerHTML   = '';
-
-    const cx = 24, cy = 24;
-    const r_inner = 4;
-    const r_mid   = 14;
-    const r_outer = 20;
-    const nTraces = 8;
-
-    for (let i = 0; i < nTraces; i++) {
-      const ang = (i / nTraces) * Math.PI * 2;
-      const x1  = cx + Math.cos(ang) * r_inner;
-      const y1  = cy + Math.sin(ang) * r_inner;
-      const x2  = cx + Math.cos(ang) * r_mid;
-      const y2  = cy + Math.sin(ang) * r_mid;
-
-      // Trace line
-      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
-      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-      line.setAttribute('stroke', accent);
-      line.setAttribute('stroke-width', '0.7');
-      line.setAttribute('stroke-linecap', 'round');
-      traces.appendChild(line);
-
-      // Pad (small filled square rotated 45°) at mid ring
-      const pad = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-      const pw  = 1.8;
-      pad.setAttribute('x',  x2 - pw / 2);
-      pad.setAttribute('y',  y2 - pw / 2);
-      pad.setAttribute('width',  pw);
-      pad.setAttribute('height', pw);
-      pad.setAttribute('fill', accent);
-      pad.setAttribute('transform', `rotate(45, ${x2}, ${y2})`);
-      pad.setAttribute('opacity', '0.9');
-      pads.appendChild(pad);
-    }
-
-    // Vias on outer ring (16 of them, tiny circles)
-    const nVias = 16;
-    for (let i = 0; i < nVias; i++) {
-      const ang  = (i / nVias) * Math.PI * 2;
-      const vx   = cx + Math.cos(ang) * r_outer;
-      const vy   = cy + Math.sin(ang) * r_outer;
-      const via  = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      via.setAttribute('cx', vx); via.setAttribute('cy', vy);
-      via.setAttribute('r', '0.9');
-      via.setAttribute('fill', accent);
-      vias.appendChild(via);
-    }
-
-    // Refresh ring colors
-    document.getElementById('pcb-ring-outer').setAttribute('stroke', accent);
-    document.getElementById('pcb-ring-mid').setAttribute('stroke', accent);
-    document.getElementById('pcb-ring-inner').setAttribute('stroke', accent);
-    document.getElementById('pcb-ring-inner').setAttribute('fill', 'none');
-    document.getElementById('pcb-center').setAttribute('fill', accent);
-  }
-
-  buildPCBSvg();
-
-  /* ────────────────────────────────────────────────────────
-     CURSOR LOGIC
-     ──────────────────────────────────────────────────────── */
-  const cursorPro  = document.getElementById('cursor-pro');
-  const cursorPcb  = document.getElementById('cursor-pcb');
-  const btnPro     = document.getElementById('btn-cursor-pro');
-  const btnPcb     = document.getElementById('btn-cursor-pcb');
+  const cursorPro = document.getElementById('cursor-pro');
+  const cursorPcb = document.getElementById('cursor-pcb');
+  const pcbSvg    = document.getElementById('pcb-svg');
+  const btnPro    = document.getElementById('btn-cursor-pro');
+  const btnPcb    = document.getElementById('btn-cursor-pcb');
 
   let cursorMode = 'pro';
-  let mouseX = -200, mouseY = -200;
   let pcbRotation = 0;
-  let prevMX = -200, prevMY = -200;
-  let spinVelocity = 0;
-  let rafId = null;
+  let pcbRotDir   = 1;
+  let lastMouseX  = -300;
 
-  function setCursorMode(mode) {
+  function showCursor(mode) {
     cursorMode = mode;
+    if (mode === 'pro') {
+      cursorPro.style.display = 'block';
+      cursorPcb.style.display = 'none';
+    } else {
+      cursorPro.style.display = 'none';
+      cursorPcb.style.display = 'block';
+    }
     html.setAttribute('data-cursor', mode);
     btnPro.classList.toggle('active', mode === 'pro');
     btnPro.setAttribute('aria-pressed', String(mode === 'pro'));
@@ -2396,113 +2339,109 @@ footer {
     btnPcb.setAttribute('aria-pressed', String(mode === 'pcb'));
   }
 
-  btnPro.addEventListener('click', () => setCursorMode('pro'));
-  btnPcb.addEventListener('click', () => setCursorMode('pcb'));
+  btnPro.addEventListener('click', () => showCursor('pro'));
+  btnPcb.addEventListener('click', () => showCursor('pcb'));
+  showCursor('pro');
+  updatePcbColor(); // apply accent color now that cursorPcb exists
 
+  /* Mouse tracking */
   document.addEventListener('mousemove', (e) => {
-    // Calculate movement delta for spin velocity
-    const dx = e.clientX - prevMX;
-    const dy = e.clientY - prevMY;
-    const speed = Math.sqrt(dx * dx + dy * dy);
-    spinVelocity = Math.min(speed * 0.35, 8); // cap at 8deg/frame
-    prevMX = mouseX;
-    prevMY = mouseY;
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+    if (e.clientX > lastMouseX) pcbRotDir = 1;
+    else if (e.clientX < lastMouseX) pcbRotDir = -1;
+    lastMouseX = e.clientX;
+
+    cursorPro.style.left = e.clientX + 'px';
+    cursorPro.style.top  = e.clientY + 'px';
+    cursorPcb.style.left = e.clientX + 'px';
+    cursorPcb.style.top  = e.clientY + 'px';
   });
 
-  // Hover detection for crosshair reveal
-  const hoverTargets = 'a, button, .tab-btn, .discipline-pill, .marker, .project-card, .contact-link, .tech-chip, .cursor-btn, .theme-toggle';
+  /* PCB slow rotation loop */
+  function animatePcb() {
+    pcbRotation += 0.4 * pcbRotDir;
+    if (pcbSvg) pcbSvg.style.transform = `rotate(${pcbRotation}deg)`;
+    requestAnimationFrame(animatePcb);
+  }
+  animatePcb();
+
+  /* Hover states */
+  const INTERACTORS = 'a, button, .tab-btn, .discipline-pill, .marker, .project-card, .contact-link, .tech-chip, .cursor-btn, .theme-toggle';
+
   document.addEventListener('mouseover', (e) => {
-    if (e.target.closest(hoverTargets)) document.body.classList.add('cursor-hover');
+    if (e.target.closest(INTERACTORS)) document.body.classList.add('cursor-hover');
   });
   document.addEventListener('mouseout', (e) => {
-    if (e.target.closest(hoverTargets)) document.body.classList.remove('cursor-hover');
+    if (e.target.closest(INTERACTORS)) document.body.classList.remove('cursor-hover');
   });
 
-  // RAF loop — runs continuously, each cursor only active in its mode
-  function animateCursor() {
-    if (cursorMode === 'pro') {
-      cursorPro.style.left = mouseX + 'px';
-      cursorPro.style.top  = mouseY + 'px';
-    } else {
-      // PCB cursor: spin on movement, slow coast to stop
-      if (spinVelocity > 0.05) {
-        pcbRotation += spinVelocity;
-        spinVelocity *= 0.88; // friction / deceleration
-      } else {
-        spinVelocity = 0;
-      }
-      cursorPcb.style.left = mouseX + 'px';
-      cursorPcb.style.top  = mouseY + 'px';
-      pcbSvg.style.transform = `rotate(${pcbRotation}deg)`;
-    }
-    rafId = requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
+  /* Keep PCB color in sync with theme changes */
+  new MutationObserver(updatePcbColor).observe(html, {
+    attributes: true, attributeFilter: ['data-theme']
+  });
 
-  /* ────────────────────────────────────────────────────────
-     NAV SCROLL SHRINK
-     ──────────────────────────────────────────────────────── */
+  /* ── NAV SCROLL ─────────────────────────────────────── */
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 60);
   }, { passive: true });
 
-  /* ────────────────────────────────────────────────────────
-     SCROLL REVEAL + SKILL BARS
-     ──────────────────────────────────────────────────────── */
-  const revealObs = new IntersectionObserver((entries) => {
+  /* ── SCROLL REVEAL ──────────────────────────────────── */
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
         entry.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 200);
+          setTimeout(() => { bar.style.width = (bar.dataset.width || 0) + '%'; }, 200);
         });
       }
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.reveal, .timeline-item').forEach(el => revealObs.observe(el));
+  document.querySelectorAll('.reveal, .timeline-item').forEach(el => revealObserver.observe(el));
 
-  // Also trigger skill bars when skills section enters viewport
-  const skillsObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-      }
-    });
-  }, { threshold: 0.1 });
+  /* ── SKILLS BARS (section-level trigger) ─────────────── */
   const skillsSection = document.getElementById('skills');
-  if (skillsSection) skillsObs.observe(skillsSection);
+  if (skillsSection) {
+    new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          document.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            bar.style.width = (bar.dataset.width || 0) + '%';
+          });
+        }
+      });
+    }, { threshold: 0.1 }).observe(skillsSection);
+  }
 
-  /* ────────────────────────────────────────────────────────
-     TYPING EFFECT
-     ──────────────────────────────────────────────────────── */
+  /* ── TYPING EFFECT ──────────────────────────────────── */
   const roles   = ['Bioengineer', 'Circuit Designer', 'Robotics TA', 'ACS Co-Author', 'PCB Designer', 'Signal Engineer'];
   let ri = 0, ci = 0, deleting = false;
   const typedEl = document.getElementById('typed-role');
 
   function type() {
+    if (!typedEl) return;
     const current = roles[ri];
     if (!deleting) {
       typedEl.textContent = current.slice(0, ci + 1);
       ci++;
-      if (ci === current.length) { deleting = true; setTimeout(type, 1800); return; }
+      if (ci === current.length) {
+        deleting = true;
+        setTimeout(type, 1800);
+        return;
+      }
     } else {
       typedEl.textContent = current.slice(0, ci - 1);
       ci--;
-      if (ci === 0) { deleting = false; ri = (ri + 1) % roles.length; }
+      if (ci === 0) {
+        deleting = false;
+        ri = (ri + 1) % roles.length;
+      }
     }
     setTimeout(type, deleting ? 60 : 90);
   }
   setTimeout(type, 1200);
 
-  /* ────────────────────────────────────────────────────────
-     PROJECT TABS
-     ──────────────────────────────────────────────────────── */
+  /* ── PROJECT TABS ───────────────────────────────────── */
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -2513,21 +2452,13 @@ footer {
     });
   });
 
-  /* ────────────────────────────────────────────────────────
-     DISCIPLINE PILLS
-     ──────────────────────────────────────────────────────── */
+  /* ── DISCIPLINE PILLS ───────────────────────────────── */
   document.querySelectorAll('.discipline-pill').forEach(pill => {
     pill.addEventListener('click', () => {
       document.querySelectorAll('.discipline-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
     });
   });
-
-  /* ────────────────────────────────────────────────────────
-     THEME CHANGE → REBUILD PCB COLORS
-     ──────────────────────────────────────────────────────── */
-  new MutationObserver(() => buildPCBSvg())
-    .observe(html, { attributes: true, attributeFilter: ['data-theme'] });
 
 })();
 </script>
