@@ -33,6 +33,7 @@
   --card-bg: #ffffff;
   --noise-opacity: 0.018;
   --orb-opacity: 0.08;
+  --img-bg: #eae8e3;
 }
 
 [data-theme="dark"] {
@@ -56,6 +57,7 @@
   --card-bg: #161d2b;
   --noise-opacity: 0.04;
   --orb-opacity: 0.12;
+  --img-bg: #1a2233;
 }
 
 /* ============================================================
@@ -442,6 +444,9 @@ nav.scrolled { padding: 14px 60px; }
   transition: all 0.25s;
   display: inline-flex; align-items: center; gap: 10px;
   cursor: none;
+  border: none;
+  background: none;
+  font-family: 'JetBrains Mono', monospace;
 }
 .btn-primary {
   background: var(--accent);
@@ -594,10 +599,14 @@ section {
   position: relative; z-index: 1;
   overflow: hidden;
 }
+/* About photo — intentional portrait crop, keep cover */
 .photo-actual-wrap img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
+  image-rendering: high-quality;
+  -webkit-backface-visibility: hidden;
 }
 .photo-tag {
   position: absolute;
@@ -869,31 +878,57 @@ section {
   box-shadow: 0 24px 60px var(--shadow);
 }
 [data-theme="dark"] .project-card:hover { border-color: rgba(99,179,237,0.4); }
+
+/* ============================================================
+   TASK 1 FIX — PROJECT IMAGE DISPLAY (no cropping, full image shown)
+   ============================================================ */
 .project-image {
   width: 100%;
   aspect-ratio: 16/9;
-  background: var(--bg3);
+  background: var(--img-bg);
   position: relative;
   overflow: hidden;
 }
+
+/* Single images: contain so the full image is always visible, no cropping */
 .project-image img.single-img {
-  width: 100%; height: 100%; object-fit: cover;
-  transition: transform 0.5s;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;        /* ← CHANGED from cover; shows full image */
+  object-position: center;
   display: block;
+  /* High-quality image rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  image-rendering: high-quality;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  /* Subtle padding so image doesn't touch edges */
+  padding: 6px;
+  box-sizing: border-box;
+  transition: transform 0.5s;
 }
-.project-card:hover .project-image img.single-img { transform: scale(1.05); }
+
+/* Hover zoom still works nicely with contain */
+.project-card:hover .project-image img.single-img {
+  transform: scale(1.04);
+}
+
+/* Overlay is lighter since background shows around contained image */
 .project-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,12,16,0.6) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(8,12,16,0.45) 0%, transparent 50%);
   pointer-events: none;
 }
 [data-theme="light"] .project-overlay {
-  background: linear-gradient(to top, rgba(13,26,46,0.45) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(13,26,46,0.35) 0%, transparent 50%);
 }
+
 .project-cats {
   position: absolute; top: 12px; left: 12px;
   display: flex; gap: 6px; flex-wrap: wrap;
   pointer-events: none;
+  z-index: 2;
 }
 .project-cat {
   font-family: 'JetBrains Mono', monospace;
@@ -950,7 +985,7 @@ section {
 .project-highlight .project-desc { font-size: 0.82rem; }
 
 /* ============================================================
-   IMAGE SLIDESHOW
+   IMAGE SLIDESHOW — contain fix applied here too
    ============================================================ */
 .img-slideshow {
   position: relative;
@@ -959,22 +994,28 @@ section {
   position: absolute;
   inset: 0;
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;         /* ← CHANGED from cover; no cropping */
+  object-position: center;
+  padding: 6px;
+  box-sizing: border-box;
   opacity: 0;
   transition: opacity 0.85s ease;
   pointer-events: none;
   display: block;
+  /* High-quality rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
+  -webkit-backface-visibility: hidden;
 }
 .img-slideshow .slide.active {
   opacity: 1;
 }
-/* Subtle zoom on active slide */
 .img-slideshow .slide.active {
   animation: slide-zoom 8s ease-in-out forwards;
 }
 @keyframes slide-zoom {
   from { transform: scale(1); }
-  to   { transform: scale(1.04); }
+  to   { transform: scale(1.03); }
 }
 .slide-ui {
   position: absolute;
@@ -1021,7 +1062,6 @@ section {
   background: #ffffff;
   transform: scale(1.3);
 }
-/* Counter badge top-right for slideshows */
 .slide-counter {
   position: absolute;
   top: 12px; right: 12px;
@@ -1258,7 +1298,7 @@ section {
 }
 
 /* ============================================================
-   CONTACT
+   CONTACT — TASK 2 FIXES
    ============================================================ */
 #contact { background: var(--bg); }
 .contact-layout {
@@ -1333,6 +1373,7 @@ section {
 .contact-link-arrow { color: var(--text-dim); font-size: 0.85rem; transition: all 0.3s; }
 .contact-link:hover .contact-link-arrow { color: var(--accent); transform: translateX(4px); }
 
+/* Form title */
 .contact-form-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
@@ -1370,6 +1411,56 @@ section {
 .form-group textarea:focus { border-color: var(--accent); }
 .form-group input::placeholder,
 .form-group textarea::placeholder { color: var(--text-dim); }
+
+/* Form submit button — proper <button> styling */
+.btn-submit {
+  width: 100%;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border: none;
+}
+.btn-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.btn-submit .btn-spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+.btn-submit.loading .btn-spinner { display: block; }
+.btn-submit.loading .btn-label { display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Form status messages */
+.form-status {
+  display: none;
+  padding: 16px 20px;
+  margin-top: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  border: 1px solid;
+}
+.form-status.success {
+  display: block;
+  background: rgba(5,150,105,0.07);
+  border-color: rgba(5,150,105,0.35);
+  color: var(--green);
+}
+.form-status.error {
+  display: block;
+  background: rgba(220,38,38,0.07);
+  border-color: rgba(220,38,38,0.35);
+  color: var(--red);
+}
 
 /* ============================================================
    FOOTER
@@ -2297,7 +2388,7 @@ a, button, .tab-btn, .discipline-pill,
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT ─── TASK 2: Real form with Formspree + success state -->
 <section id="contact">
   <div class="contact-layout">
     <div class="reveal">
@@ -2346,33 +2437,58 @@ a, button, .tab-btn, .discipline-pill,
       </div>
     </div>
 
+    <!-- ══ FIXED FORM ══ -->
     <div class="reveal reveal-delay-2">
       <div class="contact-form-title">Quick Message</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" placeholder="Your name">
+      <!--
+        SETUP INSTRUCTIONS (one-time, 2 minutes):
+        1. Go to https://formspree.io and create a free account.
+        2. Click "New Form", give it a name (e.g. "Portfolio Contact"), set email to joseAcastillo2024@outlook.com
+        3. Copy your form endpoint URL — looks like: https://formspree.io/f/xpwzyrkq
+        4. Replace YOUR_FORMSPREE_ENDPOINT below with that URL.
+        Free tier = 50 submissions/month, no server needed, messages go straight to your inbox.
+      -->
+      <form id="contact-form" action="YOUR_FORMSPREE_ENDPOINT" method="POST" novalidate>
+        <!-- Hidden fields for Formspree config -->
+        <input type="hidden" name="_subject" value="New message from josecv04.github.io">
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cf-name">Name <span style="color:var(--red)">*</span></label>
+            <input id="cf-name" type="text" name="name" placeholder="Your name" required autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="cf-company">Company</label>
+            <input id="cf-company" type="text" name="company" placeholder="Organization" autocomplete="organization">
+          </div>
         </div>
         <div class="form-group">
-          <label>Company</label>
-          <input type="text" placeholder="Organization">
+          <label for="cf-email">Email <span style="color:var(--red)">*</span></label>
+          <input id="cf-email" type="email" name="email" placeholder="your@email.com" required autocomplete="email">
         </div>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" placeholder="your@email.com">
-      </div>
-      <div class="form-group">
-        <label>Subject</label>
-        <input type="text" placeholder="Opportunity / Collaboration / Question">
-      </div>
-      <div class="form-group">
-        <label>Message</label>
-        <textarea rows="6" placeholder="Tell me about the opportunity or what you'd like to collaborate on..."></textarea>
-      </div>
-      <a href="mailto:joseAcastillo2024@outlook.com" class="btn btn-primary" style="width:100%;justify-content:center;">
-        Send Message →
-      </a>
+        <div class="form-group">
+          <label for="cf-subject">Subject <span style="color:var(--red)">*</span></label>
+          <input id="cf-subject" type="text" name="subject" placeholder="Opportunity / Collaboration / Question" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-message">Message <span style="color:var(--red)">*</span></label>
+          <textarea id="cf-message" name="message" rows="6" placeholder="Tell me about the opportunity or what you'd like to collaborate on..." required></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn" class="btn btn-primary btn-submit">
+          <span class="btn-label">Send Message →</span>
+          <span class="btn-spinner"></span>
+        </button>
+
+        <!-- Status messages shown after submission -->
+        <div id="form-success" class="form-status success" role="alert" aria-live="polite">
+          ✓ Message sent! I'll get back to you within 24 hours.
+        </div>
+        <div id="form-error" class="form-status error" role="alert" aria-live="polite">
+          ✗ Something went wrong. Please try again or email me directly at joseAcastillo2024@outlook.com
+        </div>
+      </form>
     </div>
   </div>
 </section>
@@ -2547,14 +2663,11 @@ a, button, .tab-btn, .discipline-pill,
     let timer;
 
     function goTo(n) {
-      /* Remove active from current */
       slides[idx].classList.remove('active');
       if (dots[idx]) dots[idx].classList.remove('active');
-      /* Advance */
       idx = (n + total) % total;
       slides[idx].classList.add('active');
       if (dots[idx]) dots[idx].classList.add('active');
-      /* Update counter */
       if (counter) counter.textContent = (idx + 1) + ' / ' + total;
     }
 
@@ -2583,6 +2696,99 @@ a, button, .tab-btn, .discipline-pill,
   }
 
   document.querySelectorAll('[data-slideshow]').forEach(initSlideshow);
+
+  /* ═══════════════════════════════════════════════════════
+     TASK 2 FIX — CONTACT FORM (Formspree AJAX submission)
+     ═══════════════════════════════════════════════════════ */
+  const contactForm  = document.getElementById('contact-form');
+  const submitBtn    = document.getElementById('submit-btn');
+  const successMsg   = document.getElementById('form-success');
+  const errorMsg     = document.getElementById('form-error');
+
+  if (contactForm) {
+    contactForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      /* Hide any previous status messages */
+      successMsg.style.display = 'none';
+      errorMsg.style.display   = 'none';
+
+      /* Client-side validation */
+      const name    = document.getElementById('cf-name').value.trim();
+      const email   = document.getElementById('cf-email').value.trim();
+      const subject = document.getElementById('cf-subject').value.trim();
+      const message = document.getElementById('cf-message').value.trim();
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!name || !email || !subject || !message) {
+        errorMsg.textContent = '✗ Please fill in all required fields.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+      if (!emailRe.test(email)) {
+        errorMsg.textContent = '✗ Please enter a valid email address.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      /* Check Formspree endpoint is configured */
+      const action = contactForm.getAttribute('action') || '';
+      if (!action || action === 'YOUR_FORMSPREE_ENDPOINT') {
+        /* Fallback: open mailto with prefilled fields if Formspree not set up yet */
+        const body = encodeURIComponent(
+          'Name: ' + name + '\n' +
+          'Company: ' + (document.getElementById('cf-company').value.trim() || 'N/A') + '\n' +
+          'Email: ' + email + '\n\n' +
+          message
+        );
+        const sub = encodeURIComponent(subject);
+        window.open('mailto:joseAcastillo2024@outlook.com?subject=' + sub + '&body=' + body);
+        successMsg.textContent = '✓ Opening your email client with the message pre-filled.';
+        successMsg.style.display = 'block';
+        return;
+      }
+
+      /* Show loading state */
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      try {
+        const formData = new FormData(contactForm);
+        const response = await fetch(action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (response.ok) {
+          /* SUCCESS */
+          contactForm.reset();
+          successMsg.textContent = '✓ Message sent! I\'ll get back to you within 24 hours.';
+          successMsg.style.display = 'block';
+          /* Scroll status into view */
+          successMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          /* Parse Formspree error if available */
+          let errDetail = '';
+          try {
+            const data = await response.json();
+            if (data.errors) {
+              errDetail = ' (' + data.errors.map(err => err.message).join(', ') + ')';
+            }
+          } catch (_) { /* ignore */ }
+          throw new Error('Server responded with ' + response.status + errDetail);
+        }
+      } catch (err) {
+        console.error('Form submission error:', err);
+        errorMsg.textContent = '✗ Something went wrong. Please email me directly at joseAcastillo2024@outlook.com';
+        errorMsg.style.display = 'block';
+        errorMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } finally {
+        submitBtn.classList.remove('loading');
+        submitBtn.disabled = false;
+      }
+    });
+  }
 
   /* ── CURSORS (desktop only) ──────────────────────────── */
   if (isMobile()) return;
